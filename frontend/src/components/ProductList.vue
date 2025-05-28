@@ -1,7 +1,11 @@
 <template>
   <div class="bg-gradient-to-br from-indigo-100 to-blue-100 min-h-screen py-12 px-6">
     <div class="max-w-4xl mx-auto space-y-8">
-      <h2 class="text-4xl font-bold text-center text-gray-800">📦 Product List</h2>
+      <h2
+        class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 drop-shadow-md flex items-center gap-2 justify-center mb-10"
+      >
+        📦 Product List
+      </h2>
 
       <div v-if="loading" class="text-center text-gray-500 animate-pulse">Loading products...</div>
       <div v-else-if="products.length === 0" class="text-center text-gray-500">No products available.</div>
