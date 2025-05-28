@@ -1,15 +1,21 @@
 <template>
-  <div class="product-item">
-    <h3>{{ product.name }}</h3>
-    <p>Price: ${{ product.price }}</p>
-    <p>{{ product.description }}</p>
-    <button @click="deleteProduct">Delete</button>
-    <button @click="$router.push(`/products/edit/${product._id}`)">Edit</button>
+  <div class="bg-white border border-gray-200 rounded-xl shadow-md p-4 flex flex-col justify-between">
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
+      <p class="text-sm text-gray-600 mt-1">{{ product.description }}</p>
+      <p class="mt-2 text-blue-600 font-medium">${{ product.price.toFixed(2) }}</p>
+    </div>
+
+    <div class="flex justify-end space-x-2">
+      <button @click="editProduct" class="px-4 py-1 text-sm bg-yellow-500 hover:bg-yellow-600 text-white rounded-md transition">Edit</button>
+      <button @click="deleteProduct" class="px-4 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md transition">Delete</button>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "../axios"; // or "axios" if you didn’t set up an alias
+import { useRouter } from "vue-router";
+import axios from "../axios";
 
 export default {
   name: "ProductItem",
@@ -19,29 +25,26 @@ export default {
       required: true,
     },
   },
-  methods: {
-    async deleteProduct() {
-      if (!this.product || !this.product._id) {
-        console.error("Product is undefined or missing _id");
-        return;
-      }
+  setup(props, { emit }) {
+    const router = useRouter();
 
+    const editProduct = () => {
+      router.push(`/products/edit/${props.product._id}`);
+    };
+
+    const deleteProduct = async () => {
       try {
-        await axios.delete(`http://localhost:5000/api/products/${this.product._id}`);
-        this.$emit("product-deleted", this.product._id); // Notify parent to update list
+        await axios.delete(`http://localhost:5000/api/products/${props.product._id}`);
+        emit("product-deleted", props.product._id);
       } catch (error) {
-        console.error("Failed to delete product:", error);
+        console.error("Error deleting product:", error);
       }
-    },
+    };
+
+    return {
+      editProduct,
+      deleteProduct,
+    };
   },
 };
 </script>
-
-<style scoped>
-.product-item {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-</style>

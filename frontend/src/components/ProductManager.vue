@@ -1,7 +1,5 @@
 <template>
   <div class="product-manager">
-    <h1>Product Management</h1>
-
     <div class="actions">
       <router-link to="/products/add">
         <button>Add New Product</button>

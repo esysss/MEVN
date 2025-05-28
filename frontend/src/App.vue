@@ -4,6 +4,4 @@
   </div>
 </template>
 
-<script setup>
-import ProductManager from "./components/ProductManager.vue";
-</script>
+<script setup></script>
